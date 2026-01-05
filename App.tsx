@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// triggering cloud build
 import { SocialPlatform, AnalysisResult, GroundingChunk, AnalysisHistoryEntry } from './types';
 import { analyzePost } from './services/geminiService';
 import PlatformSelector from './components/PlatformSelector';
