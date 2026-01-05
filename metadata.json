@@ -1,0 +1,6 @@
+{
+  "name": "Dream Green Insight",
+  "description": "An AI-powered tool to analyze social media posts and business reviews, specifically tailored for Dream Green CSC.",
+  "region": "europe-west1",
+  "requestFramePermissions": []
+}
