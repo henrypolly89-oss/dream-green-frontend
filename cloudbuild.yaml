@@ -1,22 +1,27 @@
 steps:
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['install']
+  # Install dependencies
+  - name: node:18
+    entrypoint: npm
+    args: ["install"]
 
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['run', 'build']
+  # Build the Vite app
+  - name: node:18
+    entrypoint: npm
+    args: ["run", "build"]
 
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'gcloud'
-    args:
-      - run
-      - deploy
-      - dream-green-frontend
-      - --source=.
-      - --region=europe-west1
-      - --platform=managed
-      - --allow-unauthenticated
+  # Build the container image
+  - name: gcr.io/cloud-builders/docker
+    args: ["build", "-t", "$_IMAGE", "."]
 
-timeout: '900s'
+  # Push the container image
+  - name: gcr.io/cloud-builders/docker
+    args: ["push", "$_IMAGE"]
+
+images:
+  - "$_IMAGE"
+
+substitutions:
+  _IMAGE: "europe-west1-docker.pkg.dev/prime-bonbon-480612-p7/dream-green-repo/frontend"
 
 
 
