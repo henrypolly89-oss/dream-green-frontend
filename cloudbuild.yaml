@@ -1,15 +1,9 @@
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - build
-      - -t
-      - gcr.io/prime-bonbon-480612-p7/dream-green-frontend
-      - .
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install']
 
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - push
-      - gcr.io/prime-bonbon-480612-p7/dream-green-frontend
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'build']
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
@@ -17,16 +11,13 @@ steps:
       - run
       - deploy
       - dream-green-frontend
-      - --image
-      - gcr.io/prime-bonbon-480612-p7/dream-green-frontend
-      - --region
-      - europe-west1
-      - --platform
-      - managed
+      - --source=.
+      - --region=europe-west1
+      - --platform=managed
       - --allow-unauthenticated
 
-images:
-  - gcr.io/prime-bonbon-480612-p7/dream-green-frontendsteps
+timeout: '900s'
+
 
 
   
