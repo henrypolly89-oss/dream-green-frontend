@@ -1,0 +1,28 @@
+# backend/cloudbuild.yaml
+options:
+  default_logs_bucket_behavior: REGIONAL_USER_OWNED_BUCKET
+
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    dir: 'backend'
+    args: ['build', '-t', 'gcr.io/prime-bonbon-480612-p7/backend', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/prime-bonbon-480612-p7/backend']
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'dreamgreen-backend'
+      - '--image'
+      - 'gcr.io/prime-bonbon-480612-p7/backend'
+      - '--region'
+      - 'europe-west1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
+images:
+  - 'gcr.io/prime-bonbon-480612-p7/backend'
